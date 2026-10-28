@@ -1,5 +1,13 @@
 # Auth / 鉴权
 
+
+## Grok Bot (beta)
+
+Independent Shopify / Amazon sellers on Synerixis: paste `https://github.com/sdrom2008/synerixis-ops-mcp` into Grok Bot, connect when asked, then fill the secure card with your `sxk_` key. Product is in public testing.
+
+Shopify / Amazon 独立卖家：把仓库地址发给 Grok Bot → 连 MCP → 安全卡填 `sxk_` Key。目前测试中。
+
+
 ## English
 
 1. Sign in to the Synerixis merchant console.

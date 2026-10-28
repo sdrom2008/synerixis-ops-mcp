@@ -26,9 +26,18 @@ Write tools are marked `destructiveHint`. This process does not open a confirm d
 - No marketplace plugin install
 - No autosend, refunds, logistics writes, or secrets. The client refuses those HTTP paths, and the API returns 403 for the same routes.
 
-### Cursor Directory
+### Who this is for (beta)
 
-Submit / install via [cursor.directory](https://cursor.directory): repo root ships `.mcp.json` and `skills/synerixis-ops-inbox/SKILL.md` for auto-detect. Set `SYNERIXIS_OPS_MCP_API_KEY` after install.
+Independent Shopify sellers and Amazon sellers running customer support through Synerixis. **Public beta — still testing.** Expect rough edges; feedback: support@synerixis.com.
+
+### How to use with Grok Bot (recommended)
+
+1. Open Grok Bot and paste this repo URL: `https://github.com/sdrom2008/synerixis-ops-mcp`
+2. Ask the Bot to connect Synerixis Ops MCP from that repo.
+3. When the secure card appears, paste your `sxk_` API Key (Synerixis merchant console → **Connections** → enable external assistant → Generate).
+4. Done — the Bot can list inbox threads, read order context, and send only after you approve destructive tool calls.
+
+Listed on [cursor.directory](https://cursor.directory) for discovery. Root ships `.mcp.json` + `skills/synerixis-ops-inbox/SKILL.md`.
 
 ### stdio (Claude Desktop / Cursor / any MCP host)
 
@@ -90,6 +99,19 @@ MIT
 本仓 **无本地数据库**，也没有市场插件清单。
 
 写工具带 `destructiveHint`。本进程不弹出确认框，也不会替模型填上 `confirm`。API 仍拒绝 `confirm` 不是 true 的写操作，并记下审计。
+
+### 给谁用（内测）
+
+面向用 Synerixis 做客服的 **Shopify / Amazon 独立卖家**。**目前测试中**，功能还在打磨；问题请发 support@synerixis.com。
+
+### 在 Grok Bot 里怎么用（推荐）
+
+1. 打开 Grok Bot，把仓库地址发给它：`https://github.com/sdrom2008/synerixis-ops-mcp`
+2. 让 Bot 按这个仓库连接 Synerixis Ops MCP。
+3. 弹出安全卡后，填入商家台 **连接** 页生成的 `sxk_` Key（先打开「允许外部助手」）。
+4. 连上后即可看收件箱、订单上下文；发送类操作须你在宿主侧批准。
+
+也可在 [cursor.directory](https://cursor.directory) 发现本插件。
 
 ### 本地 stdio
 见上方 English。环境变量只用 `SYNERIXIS_OPS_MCP_API_KEY`（`sxk_` 开头）。不要依赖 `SYNERIXIS_API_KEY`。

@@ -1,31 +1,33 @@
 ---
 name: synerixis-ops-inbox
-description: Operate the Synerixis cross-border customer-service inbox via Ops MCP. Use when the merchant asks to check conversations, order/logistics context, pending AI replies, drafts, sends, assignment, or status.
+description: Operate the Synerixis cross-border customer-service inbox via Ops MCP. For independent Shopify/Amazon sellers on Synerixis (public beta). Use when connecting from a GitHub repo URL, filling the secure API-key card, or helping with inbox/order/send flows.
 ---
 
-# Synerixis Ops inbox
+# Synerixis Ops inbox (beta)
 
-You are helping a merchant run their Synerixis inbox. Heavy lifting stays on `https://api.synerixis.com`. This plugin only exposes Ops MCP tools.
+Public beta for **independent Shopify and Amazon sellers** on Synerixis. Still testing — tell the merchant features may change; feedback goes to support@synerixis.com.
 
-## When to use
+## Connect (Grok Bot)
+
+1. Merchant pastes `https://github.com/sdrom2008/synerixis-ops-mcp` into Grok Bot and asks to connect Synerixis Ops MCP from that repo.
+2. Bot shows a secure card — merchant pastes `sxk_` key from Synerixis → **Connections** (external assistant must be on).
+3. After connect, use Ops MCP tools only.
+
+## When to use tools
 
 - List stores / conversations / messages
-- Read order or logistics context for a thread
-- Review pending AI replies and approve or reject after the host confirms
-- Save a draft or send a reply after the host approves the destructive tool call
-- Assign a conversation or set status (`resolved` / `reopen` / `closed`)
+- Read order or logistics context
+- Review pending AI replies; approve or reject only after the host confirms
+- Save a draft or send after host approval on destructive calls
+- Assign or set status (`resolved` / `reopen` / `closed`)
 - Check AI resolve-point quota
 
 ## Hard rules
 
 1. Never promise refunds, cancellations, logistics changes, or delivery dates unless the merchant explicitly authorized that reply text.
-2. Do not attempt autosend, refund, logistics-write, or secrets tools — the client and API refuse them.
-3. Write tools (`send_message`, `approve_ai_reply`, `reject_ai_reply`, `assign_conversation`, `update_conversation_status`) need host approval. `confirm` must already be true; this client never fills it for the model.
-4. Prefer reading first: `list_conversations` → `get_conversation` / `list_messages` → `get_order_context` before drafting.
-5. For pending AI drafts, show the draft to the merchant and only approve when they clearly want it sent.
-6. Night / off-hours: if AI cannot resolve, say a human will follow up — do not invent outcomes.
-7. Merchant-facing copy uses “AI reply” / “pending send”, never “draft” wording in customer-facing text.
-
-## Auth
-
-Merchant console → Connections → enable external assistant → generate `sxk_` key → set `SYNERIXIS_OPS_MCP_API_KEY`. See AUTH.md.
+2. No autosend, refund, logistics-write, or secrets — client and API refuse them.
+3. Write tools need host approval; `confirm` must already be true (client never fills it).
+4. Read first: conversations → messages → order context → then draft/send.
+5. Show pending AI drafts to the merchant before approve.
+6. Off-hours: if AI cannot resolve, say a human will follow up — do not invent outcomes.
+7. Customer-facing copy: “AI reply” / “pending send”, not “draft”.
