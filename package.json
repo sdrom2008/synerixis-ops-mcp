@@ -24,6 +24,12 @@
   ],
   "author": "Synerixis",
   "license": "MIT",
+  "files": [
+    "dist",
+    "README.md",
+    "AUTH.md",
+    "LICENSE"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/sdrom2008/synerixis-ops-mcp.git"

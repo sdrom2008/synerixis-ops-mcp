@@ -2,34 +2,36 @@
 
 ## English
 
-1. Sign in to Synerixis merchant console.
+1. Sign in to the Synerixis merchant console.
 2. Open **Connections** (连接 / 外部助手).
-3. Enable Ops MCP / external assistant for the tenant (admin may need `opsMcpEnabled`).
-4. **Generate** an API Key (you can rotate or revoke later). Plaintext is shown once — store it in your assistant’s secret store or env.
-5. Configure the MCP client:
+3. Ask the platform admin to turn on Ops MCP for the shop if the connect page is hidden.
+4. Turn on **Allow external assistant**. While this is off, API keys cannot call tools, and creating or rotating a key is refused. Turning it off revokes live keys.
+5. **Generate** an API Key. Plaintext is shown once. It starts with `sxk_`.
+6. Configure the MCP client:
 
-   - Env: `SYNERIXIS_OPS_MCP_API_KEY=sk_ops_...`
-   - Optional: `SYNERIXIS_OPS_MCP_BASE_URL` (default `https://api.synerixis.com/api/ops-mcp/v1`)
+   - `SYNERIXIS_OPS_MCP_API_KEY=sxk_...`
+   - Optional `SYNERIXIS_OPS_MCP_BASE_URL` (default `https://api.synerixis.com/api/ops-mcp/v1`)
 
-6. Requests use `Authorization: Bearer <key>`.
+7. Requests use `Authorization: Bearer <key>`.
 
-Writes (`send`, `approve-ai`, `reject-ai`, `assign`, `status`) require `confirm=true` and are logged to Synerixis audit endpoints for the merchant and platform admin.
+Writes (`send`, `approve-ai`, `reject-ai`, `assign`, `status`) require `confirm=true`. The stdio client does not fill that in. Marked destructive tools should be approved by the MCP host. Synerixis audits the attempt and the outcome for the merchant and the platform admin.
 
-Never commit keys. Prefer rotating keys after sharing with a new device.
+A platform-admin enter-merchant session cannot change these settings or mint a key.
+
+Never commit keys. Prefer rotating a key after sharing it with a new device.
 
 ## 中文
 
 1. 登录 Synerixis 商家台。
 2. 打开 **连接**（外部助手）。
-3. 开启 Ops MCP / 外部助手（总后台可能需打开 `opsMcpEnabled`）。
-4. **生成** API Key（可轮换 / 吊销）；明文只显示一次，请放进 Bot 密钥或环境变量。
-5. 配置：
+3. 若页面不可用，请总后台打开本店 Ops MCP 入口。
+4. 打开 **允许外部助手**。关掉时，Key 不能调用工具，也不能新建或轮换；关掉会吊销仍有效的 Key。
+5. **生成** API Key。明文只显示一次，前缀是 `sxk_`。
+6. 配置 `SYNERIXIS_OPS_MCP_API_KEY`。可选 `SYNERIXIS_OPS_MCP_BASE_URL`（默认生产地址）。
+7. 请求头：`Authorization: Bearer <key>`。
 
-   - `SYNERIXIS_OPS_MCP_API_KEY`
-   - 可选 `SYNERIXIS_OPS_MCP_BASE_URL`（默认生产地址如上）
+发送、批准、驳回、分配、改状态必须带 `confirm=true`。stdio 客户端不会替你填上。宿主应把这些工具当破坏性操作来批准。Synerixis 会记下尝试和结果。
 
-6. 请求头：`Authorization: Bearer <key>`。
+总后台的代登录会话不能改这些设置，也不能签发 Key。
 
-发送类写操作必须 `confirm=true`，并在商家连接页与总后台商家详情的审计表中可查。
-
-勿把 Key 提交进 Git。换设备建议轮换 Key。
+勿把 Key 提交进 Git。换设备后建议轮换 Key。

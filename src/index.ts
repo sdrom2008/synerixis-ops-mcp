@@ -1,54 +1,37 @@
 #!/usr/bin/env node
 /**
- * Synerixis Ops MCP — lightweight stdio MCP server.
- * Cross-border e-commerce · AI customer-service workbench shell.
- * Talks only to https://api.synerixis.com/api/ops-mcp/v1 — no local DB.
+ * Synerixis Ops MCP — stdio MCP server.
+ * Talks only to the Synerixis Ops API. No local database.
  */
 
 import { Server } from "@modelcontextprotocol/sdk/server/index.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
-import {
-  CallToolRequestSchema,
-  ListToolsRequestSchema,
-} from "@modelcontextprotocol/sdk/types.js";
-import { OpsMcpClient } from "./client.js";
-import { HARD_BANS, TOOLS } from "./tools.js";
+import { CallToolRequestSchema, ListToolsRequestSchema } from "@modelcontextprotocol/sdk/types.js";
+import { OpsMcpClient, redactSecrets } from "./client.js";
+import { TOOLS } from "./tools.js";
 
-const apiKey = process.env.SYNERIXIS_OPS_MCP_API_KEY || process.env.SYNERIXIS_API_KEY || "";
+const apiKey = process.env.SYNERIXIS_OPS_MCP_API_KEY ?? "";
 
 const server = new Server(
-  {
-    name: "synerixis-ops-mcp",
-    version: "0.1.0",
-  },
-  {
-    capabilities: {
-      tools: {},
-    },
-  }
+  { name: "synerixis-ops-mcp", version: "0.1.0" },
+  { capabilities: { tools: {} } }
 );
 
 server.setRequestHandler(ListToolsRequestSchema, async () => ({
-  tools: TOOLS.map((t) => ({
-    name: t.name,
-    description: t.description,
-    inputSchema: t.inputSchema,
+  tools: TOOLS.map((tool) => ({
+    name: tool.name,
+    description: tool.description,
+    inputSchema: tool.inputSchema,
+    annotations: tool.annotations,
   })),
 }));
 
 server.setRequestHandler(CallToolRequestSchema, async (request) => {
   const name = request.params.name;
-  if ((HARD_BANS as readonly string[]).includes(name)) {
-    return {
-      content: [{ type: "text", text: `Tool "${name}" is hard-banned by Synerixis Ops MCP policy.` }],
-      isError: true,
-    };
-  }
-
-  const tool = TOOLS.find((t) => t.name === name);
+  const tool = TOOLS.find((item) => item.name === name);
   if (!tool) {
     return {
-      content: [{ type: "text", text: `Unknown tool: ${name}` }],
+      content: [{ type: "text" as const, text: `Unknown tool: ${name}` }],
       isError: true,
     };
   }
@@ -58,28 +41,27 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
     const args = (request.params.arguments ?? {}) as Record<string, unknown>;
     const result = await tool.handler(client, args);
     return {
-      content: [
-        {
-          type: "text",
-          text: typeof result === "string" ? result : JSON.stringify(result, null, 2),
-        },
-      ],
+      content: [{ type: "text" as const, text: typeof result === "string" ? result : JSON.stringify(result, null, 2) }],
     };
   } catch (err) {
-    const message = err instanceof Error ? err.message : String(err);
+    const message = redactSecrets(err instanceof Error ? err.message : String(err), apiKey);
     return {
-      content: [{ type: "text", text: message }],
+      content: [{ type: "text" as const, text: message }],
       isError: true,
     };
   }
 });
 
 async function main() {
+  if (!apiKey.trim()) {
+    console.error("SYNERIXIS_OPS_MCP_API_KEY is required. This server does not read SYNERIXIS_API_KEY.");
+    process.exit(1);
+  }
   const transport = new StdioServerTransport();
   await server.connect(transport);
 }
 
 main().catch((err) => {
-  console.error(err);
+  console.error(redactSecrets(err instanceof Error ? err.message : String(err), apiKey));
   process.exit(1);
 });
