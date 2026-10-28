@@ -141,6 +141,15 @@ export const TOOLS: ToolDef[] = [
     handler: (c) => c.get("/quota"),
   },
   {
+    name: "list_agents",
+    description:
+      "List this merchant's agents/seats (id, displayName, isActive/isAvailable) for assign_conversation. " +
+      "列出本店坐席（id、显示名、是否可用），供分派会话选用。Does not expose secrets or emails.",
+    annotations: READ,
+    inputSchema: { type: "object", properties: {}, required: [] },
+    handler: (c) => c.get("/agents"),
+  },
+  {
     name: "save_draft",
     description: "Save or update a draft reply on a conversation. Does not send.",
     annotations: { readOnlyHint: false, destructiveHint: false, idempotentHint: true, openWorldHint: true },
@@ -228,7 +237,9 @@ export const TOOLS: ToolDef[] = [
   },
   {
     name: "assign_conversation",
-    description: "Assign a conversation to an agent. Sends agentId (assigneeId is the same value). Host must approve.",
+    description:
+      "Assign a conversation to an agent. Call list_agents first for assigneeId. " +
+      "先 list_agents 取坐席 id。Sends agentId (assigneeId is the same value). Host must approve.",
     annotations: WRITE,
     inputSchema: {
       type: "object",
