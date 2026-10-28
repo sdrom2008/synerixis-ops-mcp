@@ -26,6 +26,10 @@ Write tools are marked `destructiveHint`. This process does not open a confirm d
 - No marketplace plugin install
 - No autosend, refunds, logistics writes, or secrets. The client refuses those HTTP paths, and the API returns 403 for the same routes.
 
+### Cursor Directory
+
+Submit / install via [cursor.directory](https://cursor.directory): repo root ships `.mcp.json` and `skills/synerixis-ops-inbox/SKILL.md` for auto-detect. Set `SYNERIXIS_OPS_MCP_API_KEY` after install.
+
 ### stdio (Claude Desktop / Cursor / any MCP host)
 
 ```bash

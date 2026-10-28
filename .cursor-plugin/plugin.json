@@ -1,0 +1,14 @@
+{
+  "name": "synerixis-ops-mcp",
+  "displayName": "Synerixis Ops — Cross-border CS Inbox",
+  "version": "0.1.0",
+  "description": "Cross-border e-commerce AI customer service workbench. Unified inbox for Amazon, Shopify, Shoplazza, WhatsApp, and email. Watch the desk from Cursor or Grok Bot; confirm before send.",
+  "author": {
+    "name": "Synerixis",
+    "email": "support@synerixis.com"
+  },
+  "license": "MIT",
+  "keywords": ["synerixis", "ecommerce", "customer-service", "mcp", "inbox", "shopify", "amazon"],
+  "homepage": "https://www.synerixis.com",
+  "repository": "https://github.com/sdrom2008/synerixis-ops-mcp"
+}

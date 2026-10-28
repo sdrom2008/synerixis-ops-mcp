@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "synerixis-ops": {
+      "command": "npx",
+      "args": ["-y", "github:sdrom2008/synerixis-ops-mcp"],
+      "env": {
+        "SYNERIXIS_OPS_MCP_API_KEY": "${SYNERIXIS_OPS_MCP_API_KEY}"
+      }
+    }
+  }
+}
