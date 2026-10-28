@@ -5,7 +5,7 @@
 Lightweight remote MCP shell for Synerixis merchant inbox ops.  
 极简远程 MCP 壳：不挂本地数据库，不包含 Synerixis 业务源码；所有数据经正式 API。
 
-这个仓库只有 **stdio**。没有 Grok Bot 市场插件包，也没有远程 MCP 传输。
+本仓继续提供 **stdio**（本机 Claude Desktop / Cursor）。手机 / 云端 Grok Bot 请用远程 HTTPS MCP（见下方），不必跑本进程。
 
 ---
 
@@ -30,14 +30,36 @@ Write tools are marked `destructiveHint`. This process does not open a confirm d
 
 Independent Shopify sellers and Amazon sellers running customer support through Synerixis. **Public beta — still testing.** Expect rough edges; feedback: support@synerixis.com.
 
-### How to use with Grok Bot (recommended)
+### How to use with Grok Bot (recommended) — remote HTTPS
 
-1. Open Grok Bot and paste this repo URL: `https://github.com/sdrom2008/synerixis-ops-mcp`
-2. Ask the Bot to connect Synerixis Ops MCP from that repo.
-3. When the secure card appears, paste your `sxk_` API Key (Synerixis merchant console → **Connections** → enable external assistant → Generate).
-4. Done — the Bot can list inbox threads, read order context, and send only after you approve destructive tool calls.
+Phone / cloud Grok Bot cannot reach localhost stdio. Use the hosted Streamable HTTP endpoint:
 
-Listed on [cursor.directory](https://cursor.directory) for discovery. Root ships `.mcp.json` + `skills/synerixis-ops-inbox/SKILL.md`.
+1. In Grok Bot: **Add this MCP server** → URL  
+   `https://api.synerixis.com/api/ops-mcp/v1/mcp`
+2. When the secure card appears, paste your `sxk_` API Key  
+   (Synerixis merchant console → **Connections** → enable external assistant → Generate).
+3. Done — the Bot can list inbox threads, read order context, and send only after you approve destructive tool calls.
+
+Auth: `Authorization: Bearer sxk_…` (or `X-Api-Key`). v1 is **stateless JSON** (no SSE session).  
+Do **not** put the key in the URL or in this repo.
+
+Cursor / desktop remote example (`mcp.json`):
+
+```json
+{
+  "mcpServers": {
+    "synerixis-ops": {
+      "url": "https://api.synerixis.com/api/ops-mcp/v1/mcp",
+      "headers": {
+        "Authorization": "Bearer sxk_xxxxxxxx"
+      }
+    }
+  }
+}
+```
+
+stdio (below) still works for Claude Desktop / local Cursor.  
+Listed on [cursor.directory](https://cursor.directory). Root ships `.mcp.json` (stdio) + `skills/synerixis-ops-inbox/SKILL.md`. See also [REMOTE.md](./REMOTE.md) and [AUTH.md](./AUTH.md).
 
 ### stdio (Claude Desktop / Cursor / any MCP host)
 
@@ -97,10 +119,10 @@ MIT
 ## 中文
 
 ### 这是什么
-面向商家的轻量 **stdio MCP**。外部助手可以列会话、看订单、存草稿，并在宿主批准这次工具调用之后发送。
+面向商家的轻量 MCP（**stdio + 远程 HTTPS**）。外部助手可以列会话、看订单、存草稿，并在宿主批准这次工具调用之后发送。
 
 重活仍在正式 API：`https://api.synerixis.com/api/ops-mcp/v1`  
-本仓 **无本地数据库**，也没有市场插件清单。
+本仓 **无本地数据库**；远程协议面在 `api.synerixis.com`，本仓仍提供 stdio 壳与文档。
 
 写工具带 `destructiveHint`。本进程不弹出确认框，也不会替模型填上 `confirm`。API 仍拒绝 `confirm` 不是 true 的写操作，并记下审计。
 
@@ -108,14 +130,17 @@ MIT
 
 面向用 Synerixis 做客服的 **Shopify / Amazon 独立卖家**。**目前测试中**，功能还在打磨；问题请发 support@synerixis.com。
 
-### 在 Grok Bot 里怎么用（推荐）
+### 在 Grok Bot 里怎么用（推荐）— 远程 HTTPS
 
-1. 打开 Grok Bot，把仓库地址发给它：`https://github.com/sdrom2008/synerixis-ops-mcp`
-2. 让 Bot 按这个仓库连接 Synerixis Ops MCP。
-3. 弹出安全卡后，填入商家台 **连接** 页生成的 `sxk_` Key（先打开「允许外部助手」）。
-4. 连上后即可看收件箱、订单上下文；发送类操作须你在宿主侧批准。
+手机 / 云端 Grok 到不了本机 stdio，请用托管 Streamable HTTP：
 
-也可在 [cursor.directory](https://cursor.directory) 发现本插件。
+1. Grok Bot：**添加 MCP 服务器** → URL  
+   `https://api.synerixis.com/api/ops-mcp/v1/mcp`
+2. 安全卡填入商家台 **连接** 页生成的 `sxk_` Key（先打开「允许外部助手」）。
+3. 连上后即可看收件箱、订单上下文；发送类操作须你在宿主侧批准。
+
+鉴权：`Authorization: Bearer sxk_…`。v1 **无状态 JSON**（无 SSE Session）。  
+**禁止**把 Key 写进 URL 或本仓。stdio 装法见上方 English，仍保留给本机宿主。详见 [REMOTE.md](./REMOTE.md)、[AUTH.md](./AUTH.md)。
 
 ### 本地 stdio
 见上方 English。环境变量只用 `SYNERIXIS_OPS_MCP_API_KEY`（`sxk_` 开头）。不要依赖 `SYNERIXIS_API_KEY`。

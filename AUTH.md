@@ -8,6 +8,42 @@ Independent Shopify / Amazon sellers on Synerixis: paste `https://github.com/sdr
 Shopify / Amazon 独立卖家：把仓库地址发给 Grok Bot → 连 MCP → 安全卡填 `sxk_` Key。目前测试中。
 
 
+## Remote HTTPS MCP (Grok phone / cloud)
+
+Endpoint: `https://api.synerixis.com/api/ops-mcp/v1/mcp`
+
+- Transport: MCP **Streamable HTTP**, v1 **stateless JSON** (no long SSE, no `MCP-Session-Id`)
+- Auth: `Authorization: Bearer sxk_…` (also accepts `X-Api-Key`)
+- Put the key only in the host secure card / `headers` — never in the URL, chat plaintext, or this repo
+- OAuth is **not** required for v1
+
+Cursor example:
+
+```json
+{
+  "mcpServers": {
+    "synerixis-ops": {
+      "url": "https://api.synerixis.com/api/ops-mcp/v1/mcp",
+      "headers": { "Authorization": "Bearer sxk_xxxxxxxx" }
+    }
+  }
+}
+```
+
+stdio (command + `SYNERIXIS_OPS_MCP_API_KEY`) remains supported for local hosts.
+
+## 远程 HTTPS MCP（手机 / 云端 Grok）
+
+端点：`https://api.synerixis.com/api/ops-mcp/v1/mcp`
+
+- 传输：Streamable HTTP；v1 **无状态 JSON**（无长 SSE / Session）
+- 鉴权：`Authorization: Bearer sxk_…`（兼容 `X-Api-Key`）
+- Key 只进安全卡 / headers；禁止进 URL、聊天明文、本仓
+- v1 不做 OAuth
+
+本机仍可用 stdio + 环境变量 `SYNERIXIS_OPS_MCP_API_KEY`。
+
+
 ## English
 
 1. Sign in to the Synerixis merchant console.
