@@ -19,6 +19,7 @@ Public beta for **independent Shopify and Amazon sellers** on Synerixis. Still t
 - Read order or logistics context
 - Review pending AI replies; approve or reject only after the host confirms
 - Save a draft or send after host approval on destructive calls
+- Search by order number or buyer email (`search_conversations`)
 - List agents (`list_agents`) then assign, or set status (`resolved` / `reopen` / `closed`)
 - Check AI resolve-point quota
 

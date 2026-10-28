@@ -74,6 +74,30 @@ export const TOOLS: ToolDef[] = [
       }),
   },
   {
+    name: "search_conversations",
+    description:
+      "Search this merchant's conversations by order number or buyer email (q). Optional storeId/limit/offset. " +
+      "按订单号或买家邮箱搜本店会话。Same summary fields as list_conversations; no secrets.",
+    annotations: READ,
+    inputSchema: {
+      type: "object",
+      properties: {
+        q: { type: "string", description: "Order number or buyer email (also matches customerId/name)" },
+        storeId: { type: "string", description: "Platform connection id, open id, or shop id" },
+        limit: { type: "number", description: "Page size" },
+        offset: { type: "number", description: "Number of rows to skip" },
+      },
+      required: ["q"],
+    },
+    handler: (c, a) =>
+      c.get("/conversations/search", {
+        q: a.q as string,
+        storeId: a.storeId as string | undefined,
+        limit: a.limit as number | undefined,
+        offset: a.offset as number | undefined,
+      }),
+  },
+  {
     name: "get_conversation",
     description: "Get one conversation detail by id.",
     annotations: READ,

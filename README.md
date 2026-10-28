@@ -70,6 +70,7 @@ Optional `SYNERIXIS_OPS_MCP_BASE_URL` must be `https` on `api.synerixis.com`. A 
 |------|---------|
 | `list_stores` | Connected stores |
 | `list_conversations` | Inbox list (`storeId`, `status`, `limit`, `offset`) |
+| `search_conversations` | Search by order number or buyer email (`q`, optional `storeId`/`limit`/`offset`) |
 | `get_conversation` | Conversation detail |
 | `list_messages` | Messages (`limit`, `offset`) |
 | `get_order_context` | Order context for this conversation's platform and store |
