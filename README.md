@@ -84,6 +84,8 @@ Optional `SYNERIXIS_OPS_MCP_BASE_URL` must be `https` on `api.synerixis.com`. A 
 | `assign_conversation` | Assign. Body sends `agentId` |
 | `update_conversation_status` | `resolved`, `reopen`, or `closed` |
 
+**Suggested flow:** `search_conversations` or `list_conversations` → `list_messages` / `get_order_context` → `save_draft`; call `list_agents` before `assign_conversation`.
+
 ### Auth
 See [AUTH.md](./AUTH.md). Keys look like `sxk_` plus hex. This repo never stores tenant secrets.
 
