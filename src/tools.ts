@@ -44,8 +44,7 @@ function withReplayNote(result: unknown): unknown {
   if ((result as { replay?: unknown }).replay !== true) return result;
   return {
     ...(result as Record<string, unknown>),
-    delivered: false,
-    note: "Replay of an earlier send. The platform was not called again, and this is not a new delivery.",
+    note: "Replay of an earlier send. The platform was not called again because that send already went out.",
   };
 }
 

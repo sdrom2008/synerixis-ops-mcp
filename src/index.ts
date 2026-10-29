@@ -47,9 +47,18 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
   }
 });
 
+function keyIsUnusable(value: string): boolean {
+  const trimmed = value.trim();
+  return trimmed.length === 0 || trimmed.includes("${") || trimmed === "sxk_xxxxxxxx";
+}
+
 async function main() {
-  if (!apiKey.trim()) {
-    console.error("SYNERIXIS_OPS_MCP_API_KEY is required. This server does not read SYNERIXIS_API_KEY.");
+  if (keyIsUnusable(apiKey)) {
+    console.error(
+      "SYNERIXIS_OPS_MCP_API_KEY must be the sxk_ key from Connections. " +
+        "This process does not expand ${...} placeholders and does not read SYNERIXIS_API_KEY. " +
+        "Plugin variable ${SYNERIXIS_OPS_MCP_API_KEY} belongs in mcp.json only."
+    );
     process.exit(1);
   }
   const transport = new StdioServerTransport();

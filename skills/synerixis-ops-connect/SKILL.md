@@ -29,14 +29,19 @@ Public beta for independent Shopify / Amazon sellers on Synerixis.
 
 | Symptom | Likely cause | What to tell the merchant |
 |---------|--------------|---------------------------|
-| 401 | Bad/missing key | Regenerate on Connections; re-paste into variables card |
-| 403 on all tools | External assistant off | Turn **Allow external assistant** on (off also revokes live keys) |
+| 401 `external_assistant_disabled` | Allow external assistant is off | Turn **Allow external assistant** on. Do not turn it off first — off revokes live keys. Do not regenerate until it is on |
+| 401 `ops_mcp_key_invalid` or `ops_mcp_key_revoked` | Bad, missing, or revoked key | Regenerate on Connections and re-paste into the variables card |
+| 401 `ops_mcp_disabled_by_admin` | Platform has not opened Ops MCP | Ask Synerixis platform admin to open the entry |
+| 403 `SUBSCRIPTION_EXPIRED` | Subscription ended | Renew on /billing. Do not toggle the assistant switch |
+| 403 `origin_forbidden` | Browser Origin is not allow-listed | Use the remote server URL (no browser Origin) or an allowed app host |
 | Tools missing | Wrong MCP URL / still on old stdio bash entry | Use remote URL above; remove stale local `npx`/bash server |
 | Connect page hidden | Shop not enabled for Ops MCP | Ask Synerixis platform admin to open the entry |
 
+Read the JSON `code`. Status alone is not enough.
+
 ## Optional stdio
 
-Only if they need a local Node process (e.g. Claude Desktop): copy `.mcp.stdio.json` or `npx -y github:sdrom2008/synerixis-ops-mcp` with env `SYNERIXIS_OPS_MCP_API_KEY`. Prefer remote for Grok Bot / Cursor Plugins.
+Only if they need a local Node process (e.g. Claude Desktop): copy `.mcp.stdio.json` and replace `sxk_xxxxxxxx`, or run `npx -y github:sdrom2008/synerixis-ops-mcp` with env `SYNERIXIS_OPS_MCP_API_KEY` set to the real key. Do not leave `${SYNERIXIS_OPS_MCP_API_KEY}` in that env block — plugin variables apply only to `mcp.json`. Prefer remote for Grok Bot / Cursor Plugins.
 
 ## Hard bans (always)
 

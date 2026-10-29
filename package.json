@@ -1,6 +1,6 @@
 {
   "name": "synerixis-ops-mcp",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Synerixis Ops MCP — remote HTTPS (default) + optional stdio shell for merchant inbox ops (Grok Bot / Claude Desktop / Cursor).",
   "type": "module",
   "bin": {

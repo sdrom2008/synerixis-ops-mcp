@@ -36,7 +36,7 @@ Plugin / repo default (`mcp.json`):
 }
 ```
 
-Optional stdio: copy `.mcp.stdio.json` (`npx` + env). See README.
+Optional stdio: copy `.mcp.stdio.json` and replace `sxk_xxxxxxxx` with the real key. `${SYNERIXIS_OPS_MCP_API_KEY}` is expanded only in plugin `mcp.json`, not in that env block. See README.
 
 ## 远程 HTTPS MCP（默认）
 
@@ -47,7 +47,7 @@ Optional stdio: copy `.mcp.stdio.json` (`npx` + env). See README.
 - Key 只进安全卡 / 插件变量 / headers；禁止进 URL、聊天明文、本仓
 - v1 不做 OAuth
 
-可选本机 stdio：见 `.mcp.stdio.json`。
+可选本机 stdio：复制 `.mcp.stdio.json`，把 `sxk_xxxxxxxx` 换成真实 Key。`${SYNERIXIS_OPS_MCP_API_KEY}` 只在插件 `mcp.json` 里展开。
 
 
 ## English
@@ -60,7 +60,7 @@ Optional stdio: copy `.mcp.stdio.json` (`npx` + env). See README.
 6. Configure the MCP client:
 
    - **Remote (default):** plugin variable / header `Authorization: Bearer sxk_…`
-   - **stdio (optional):** `SYNERIXIS_OPS_MCP_API_KEY=sxk_...`
+   - **stdio (optional):** `SYNERIXIS_OPS_MCP_API_KEY=sxk_...` (replace `sxk_xxxxxxxx`; do not leave `${SYNERIXIS_OPS_MCP_API_KEY}` in the env block)
    - Optional `SYNERIXIS_OPS_MCP_BASE_URL` for stdio only (default `https://api.synerixis.com/api/ops-mcp/v1`)
    - Optional `SYNERIXIS_OPS_MCP_ALLOWED_HOST_SUFFIX` (default `api.synerixis.com`; must be `synerixis.com` or a subdomain)
 
@@ -82,7 +82,7 @@ Never commit keys. Prefer rotating a key after sharing it with a new device.
 6. 配置：
 
    - **远程（默认）：** 插件变量 / `Authorization: Bearer sxk_…`
-   - **stdio（可选）：** `SYNERIXIS_OPS_MCP_API_KEY`
+   - **stdio（可选）：** `SYNERIXIS_OPS_MCP_API_KEY` 填真实 `sxk_` Key。不要把 `${SYNERIXIS_OPS_MCP_API_KEY}` 留在环境变量里。
    - 可选 `SYNERIXIS_OPS_MCP_BASE_URL`（仅 stdio，默认生产地址）
    - 可选 `SYNERIXIS_OPS_MCP_ALLOWED_HOST_SUFFIX` 只能是 `synerixis.com` 或其子域
 7. 请求头：`Authorization: Bearer <key>`。

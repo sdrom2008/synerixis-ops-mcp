@@ -16,6 +16,6 @@ A thin [MCP](https://modelcontextprotocol.io) surface for Synerixis merchant **u
 
 **Hard bans (API 403):** autosend, refunds, logistics writes, secrets/credentials. Never invent those outcomes for the merchant.
 
-**Not included yet (placeholders):** subscription-plan lookup / paywall nudge tools (backend landing separately); Meta personal-assistant channel (P1).
+**Subscription:** `get_subscription` is read-only (tier, expiry, renew portal). It does not create a checkout. Meta personal-assistant channel is still out (P1).
 
 **Docs for agents:** install this plugin → load skill `synerixis-ops-inbox` (plus connect / pending-AI skills). Humans: [USAGE.md](./USAGE.md), [AUTH.md](./AUTH.md), [REMOTE.md](./REMOTE.md).

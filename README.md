@@ -64,7 +64,7 @@ Manual Cursor user config can use `${env:SYNERIXIS_OPS_MCP_API_KEY}` instead of 
 
 ### Optional: stdio (local Claude Desktop / Cursor)
 
-Only if you need a local Node process. Copy [`.mcp.stdio.json`](./.mcp.stdio.json) or:
+Only if you need a local Node process. Copy [`.mcp.stdio.json`](./.mcp.stdio.json) and replace `sxk_xxxxxxxx` with the real key. `${SYNERIXIS_OPS_MCP_API_KEY}` is only expanded in the plugin `mcp.json`, not in this stdio file. Cursor manual config can use `${env:SYNERIXIS_OPS_MCP_API_KEY}`.
 
 ```bash
 npx -y github:sdrom2008/synerixis-ops-mcp
@@ -149,7 +149,7 @@ MIT
 详见 [REMOTE.md](./REMOTE.md)、[AUTH.md](./AUTH.md)。
 
 ### 可选：本地 stdio
-见上方 English，或复制 [`.mcp.stdio.json`](./.mcp.stdio.json)。环境变量只用 `SYNERIXIS_OPS_MCP_API_KEY`（`sxk_` 开头）。
+见上方 English。复制 [`.mcp.stdio.json`](./.mcp.stdio.json) 后，把 `sxk_xxxxxxxx` 换成真实 Key。`${SYNERIXIS_OPS_MCP_API_KEY}` 只在插件 `mcp.json` 里展开。环境变量只用 `SYNERIXIS_OPS_MCP_API_KEY`（`sxk_` 开头）。
 
 ### 硬禁
 API 对这些路径返回 403：自动发送、退款、物流写入、读取密钥。

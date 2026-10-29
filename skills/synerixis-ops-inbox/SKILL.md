@@ -32,6 +32,7 @@ Load sibling skills when needed: `synerixis-ops-connect` (auth), `synerixis-ops-
 | `get_order_context` | Orders/logistics context for that conversation (read-only) |
 | `list_pending_ai_replies` | AI replies awaiting merchant confirm |
 | `get_quota` | **AI解决点** / AI resolve-point balance |
+| `get_subscription` | Tier, expiry, `canRenew`, billing portal (read-only; no checkout) |
 | `list_agents` | Seats (id, display name, available) — **call before** `assign_conversation` |
 | `save_draft` | Save reply text (no send) |
 | `send_message` | Send after host approval + `confirm=true` |
@@ -50,7 +51,7 @@ Load sibling skills when needed: `synerixis-ops-connect` (auth), `synerixis-ops-
 ## Quota & subscription
 
 - **Now:** `get_quota` reports **AI解决点** remaining. Say that name to the merchant (EN: AI resolve points). Never say 结案 for quota.
-- **Subscription tools (placeholder):** not merged yet. When `get_subscription` / paywall helpers appear, call them before explaining plan limits or suggesting upgrades. Until then, for billing/plan questions send the merchant to app.synerixis.com or support@synerixis.com — do not invent plan names, prices, or renewal dates.
+- **Subscription:** call `get_subscription` before upgrade, expiry, or plan-limit answers. Use `billingPortalUrl`, `channelHint`, and `contactSalesEmail` (Ent). Do not invent prices. Do not create a checkout or charge the merchant.
 
 ## Hard rules
 
