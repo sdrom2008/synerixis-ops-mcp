@@ -1,10 +1,9 @@
 {
   "mcpServers": {
     "synerixis-ops": {
-      "command": "npx",
-      "args": ["-y", "github:sdrom2008/synerixis-ops-mcp"],
-      "env": {
-        "SYNERIXIS_OPS_MCP_API_KEY": "${SYNERIXIS_OPS_MCP_API_KEY}"
+      "url": "https://api.synerixis.com/api/ops-mcp/v1/mcp",
+      "headers": {
+        "Authorization": "Bearer ${SYNERIXIS_OPS_MCP_API_KEY}"
       }
     }
   }

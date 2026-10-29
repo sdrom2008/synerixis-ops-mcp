@@ -1,7 +1,7 @@
 {
   "name": "synerixis-ops-mcp",
-  "version": "0.1.0",
-  "description": "Synerixis Ops MCP — lightweight remote shell for cross-border e-commerce AI customer service (Grok Bot / Claude Desktop / Cursor).",
+  "version": "0.2.0",
+  "description": "Synerixis Ops MCP \u2014 remote HTTPS (default) + optional stdio shell for merchant inbox ops (Grok Bot / Claude Desktop / Cursor).",
   "type": "module",
   "bin": {
     "synerixis-ops-mcp": "./dist/index.js"

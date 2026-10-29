@@ -1,8 +1,8 @@
 {
   "name": "synerixis-ops-mcp",
-  "displayName": "Synerixis Ops \u2014 CS Inbox (Beta)",
-  "version": "0.1.0",
-  "description": "Public beta for independent Shopify & Amazon sellers on Synerixis. Paste this repo into Grok Bot, fill the secure sxk_ key card, then watch the unified inbox. Still testing.",
+  "displayName": "Synerixis Ops — CS Inbox (Beta)",
+  "version": "0.2.0",
+  "description": "Public beta: remote HTTPS MCP for Synerixis unified inbox (Shopify & Amazon sellers). Install → fill sxk_ key → green-dot HTTP to api.synerixis.com. Still testing.",
   "author": {
     "name": "Synerixis",
     "email": "support@synerixis.com"
@@ -15,8 +15,21 @@
     "mcp",
     "inbox",
     "shopify",
-    "amazon"
+    "amazon",
+    "remote-mcp"
   ],
   "homepage": "https://www.synerixis.com",
-  "repository": "https://github.com/sdrom2008/synerixis-ops-mcp"
+  "repository": "https://github.com/sdrom2008/synerixis-ops-mcp",
+  "mcpServers": "mcp.json",
+  "variables": {
+    "type": "object",
+    "properties": {
+      "SYNERIXIS_OPS_MCP_API_KEY": {
+        "type": "string",
+        "title": "Synerixis Ops API Key",
+        "description": "Merchant console → Connections → Generate. Starts with sxk_. Never commit this value."
+      }
+    },
+    "required": ["SYNERIXIS_OPS_MCP_API_KEY"]
+  }
 }

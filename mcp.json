@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "synerixis-ops": {
+      "url": "https://api.synerixis.com/api/ops-mcp/v1/mcp",
+      "headers": {
+        "Authorization": "Bearer ${SYNERIXIS_OPS_MCP_API_KEY}"
+      }
+    }
+  }
+}

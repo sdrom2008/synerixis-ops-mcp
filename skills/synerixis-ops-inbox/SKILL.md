@@ -7,11 +7,11 @@ description: Operate the Synerixis cross-border customer-service inbox via Ops M
 
 Public beta for **independent Shopify and Amazon sellers** on Synerixis. Still testing — tell the merchant features may change; feedback goes to support@synerixis.com.
 
-## Connect (Grok Bot)
+## Connect (Grok Bot / Cursor) — remote HTTPS default
 
-1. Merchant pastes `https://github.com/sdrom2008/synerixis-ops-mcp` into Grok Bot and asks to connect Synerixis Ops MCP from that repo.
-2. Bot shows a secure card — merchant pastes `sxk_` key from Synerixis → **Connections** (external assistant must be on).
-3. After connect, use Ops MCP tools only (never invent refunds, logistics writes, or secrets).
+1. Preferred: add MCP URL `https://api.synerixis.com/api/ops-mcp/v1/mcp`, or install this repo / Directory plugin (root `mcp.json` already points there — HTTP green-dot, not local `npx`/bash).
+2. Secure card / plugin variable: paste `sxk_` key from Synerixis → **Connections** (external assistant must be on). Never put the key in the URL or chat plaintext.
+3. After connect, use Ops MCP tools only (never invent refunds, logistics writes, or secrets). Optional local stdio is `.mcp.stdio.json` only.
 
 ## Tool inventory (names must match)
 

@@ -1,47 +1,53 @@
 # Auth / 鉴权
 
 
-## Grok Bot (beta)
+## Grok Bot (beta) — remote HTTPS (default)
 
-Independent Shopify / Amazon sellers on Synerixis: paste `https://github.com/sdrom2008/synerixis-ops-mcp` into Grok Bot, connect when asked, then fill the secure card with your `sxk_` key. Product is in public testing.
+Independent Shopify / Amazon sellers on Synerixis:
 
-Shopify / Amazon 独立卖家：把仓库地址发给 Grok Bot → 连 MCP → 安全卡填 `sxk_` Key。目前测试中。
+1. Add MCP server URL `https://api.synerixis.com/api/ops-mcp/v1/mcp` (or install this repo / Directory plugin — root `mcp.json` already points there).
+2. When the secure card / plugin variables ask, paste your `sxk_` key.
+3. Green-dot HTTP means tools are live. Product is in public testing.
+
+Shopify / Amazon 独立卖家：默认远程 HTTPS → 安全卡 / 插件变量填 `sxk_` Key。目前测试中。
 
 
-## Remote HTTPS MCP (Grok phone / cloud)
+## Remote HTTPS MCP (default)
 
 Endpoint: `https://api.synerixis.com/api/ops-mcp/v1/mcp`
 
 - Transport: MCP **Streamable HTTP**, v1 **stateless JSON** (no long SSE, no `MCP-Session-Id`)
 - Auth: `Authorization: Bearer sxk_…` (also accepts `X-Api-Key`)
-- Put the key only in the host secure card / `headers` — never in the URL, chat plaintext, or this repo
+- Put the key only in the host secure card / plugin variable / `headers` — never in the URL, chat plaintext, or this repo
 - OAuth is **not** required for v1
 
-Cursor example:
+Plugin / repo default (`mcp.json`):
 
 ```json
 {
   "mcpServers": {
     "synerixis-ops": {
       "url": "https://api.synerixis.com/api/ops-mcp/v1/mcp",
-      "headers": { "Authorization": "Bearer sxk_xxxxxxxx" }
+      "headers": {
+        "Authorization": "Bearer ${SYNERIXIS_OPS_MCP_API_KEY}"
+      }
     }
   }
 }
 ```
 
-stdio (command + `SYNERIXIS_OPS_MCP_API_KEY`) remains supported for local hosts.
+Optional stdio: copy `.mcp.stdio.json` (`npx` + env). See README.
 
-## 远程 HTTPS MCP（手机 / 云端 Grok）
+## 远程 HTTPS MCP（默认）
 
 端点：`https://api.synerixis.com/api/ops-mcp/v1/mcp`
 
 - 传输：Streamable HTTP；v1 **无状态 JSON**（无长 SSE / Session）
 - 鉴权：`Authorization: Bearer sxk_…`（兼容 `X-Api-Key`）
-- Key 只进安全卡 / headers；禁止进 URL、聊天明文、本仓
+- Key 只进安全卡 / 插件变量 / headers；禁止进 URL、聊天明文、本仓
 - v1 不做 OAuth
 
-本机仍可用 stdio + 环境变量 `SYNERIXIS_OPS_MCP_API_KEY`。
+可选本机 stdio：见 `.mcp.stdio.json`。
 
 
 ## English
@@ -53,8 +59,9 @@ stdio (command + `SYNERIXIS_OPS_MCP_API_KEY`) remains supported for local hosts.
 5. **Generate** an API Key. Plaintext is shown once. It starts with `sxk_`.
 6. Configure the MCP client:
 
-   - `SYNERIXIS_OPS_MCP_API_KEY=sxk_...`
-   - Optional `SYNERIXIS_OPS_MCP_BASE_URL` (default `https://api.synerixis.com/api/ops-mcp/v1`)
+   - **Remote (default):** plugin variable / header `Authorization: Bearer sxk_…`
+   - **stdio (optional):** `SYNERIXIS_OPS_MCP_API_KEY=sxk_...`
+   - Optional `SYNERIXIS_OPS_MCP_BASE_URL` for stdio only (default `https://api.synerixis.com/api/ops-mcp/v1`)
 
 7. Requests use `Authorization: Bearer <key>`.
 
@@ -71,7 +78,11 @@ Never commit keys. Prefer rotating a key after sharing it with a new device.
 3. 若页面不可用，请总后台打开本店 Ops MCP 入口。
 4. 打开 **允许外部助手**。关掉时，Key 不能调用工具，也不能新建或轮换；关掉会吊销仍有效的 Key。
 5. **生成** API Key。明文只显示一次，前缀是 `sxk_`。
-6. 配置 `SYNERIXIS_OPS_MCP_API_KEY`。可选 `SYNERIXIS_OPS_MCP_BASE_URL`（默认生产地址）。
+6. 配置：
+
+   - **远程（默认）：** 插件变量 / `Authorization: Bearer sxk_…`
+   - **stdio（可选）：** `SYNERIXIS_OPS_MCP_API_KEY`
+
 7. 请求头：`Authorization: Bearer <key>`。
 
 发送、批准、驳回、分配、改状态必须带 `confirm=true`。stdio 客户端不会替你填上。宿主应把这些工具当破坏性操作来批准。Synerixis 会记下尝试和结果。

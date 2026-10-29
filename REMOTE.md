@@ -1,7 +1,7 @@
-# Remote HTTPS MCP
+# Remote HTTPS MCP (default)
 
-Hosted Streamable HTTP endpoint for phone / cloud assistants (Grok Bot).  
-手机 / 云端助手用的托管 Streamable HTTP 端点。
+Hosted Streamable HTTP endpoint — **default install path** for Cursor / Grok Bot / Directory.  
+手机 / 云端助手默认走这条；本地 stdio 见 `.mcp.stdio.json` 与 README。
 
 ## URL
 
@@ -25,7 +25,9 @@ Never put the key in the URL or commit it here.
 - `GET` / `DELETE` → `405`
 - Illegal browser `Origin` → `403`; server-side clients without `Origin` are allowed
 
-## Cursor / mcp.json
+## Default Cursor / plugin install
+
+Root `mcp.json` and `.mcp.json` both default to remote. Cursor Plugins substitute `${SYNERIXIS_OPS_MCP_API_KEY}` from the plugin **variables** card (Plugins → Configure). Do not hard-code a real key.
 
 ```json
 {
@@ -33,16 +35,33 @@ Never put the key in the URL or commit it here.
     "synerixis-ops": {
       "url": "https://api.synerixis.com/api/ops-mcp/v1/mcp",
       "headers": {
-        "Authorization": "Bearer sxk_xxxxxxxx"
+        "Authorization": "Bearer ${SYNERIXIS_OPS_MCP_API_KEY}"
       }
     }
   }
 }
 ```
 
-## stdio still available
+Manual `~/.cursor/mcp.json` (non-plugin) can use env interpolation instead:
 
-Local Claude Desktop / Cursor can keep using command + `SYNERIXIS_OPS_MCP_API_KEY` (see README / `.mcp.json`). Remote does not go through this Node process.
+```json
+{
+  "mcpServers": {
+    "synerixis-ops": {
+      "url": "https://api.synerixis.com/api/ops-mcp/v1/mcp",
+      "headers": {
+        "Authorization": "Bearer ${env:SYNERIXIS_OPS_MCP_API_KEY}"
+      }
+    }
+  }
+}
+```
+
+Or paste `Bearer sxk_…` once into `headers` (never commit that file).
+
+## Optional stdio fallback
+
+Local Claude Desktop / Cursor can still run the Node shell via `.mcp.stdio.json` (`npx` + `SYNERIXIS_OPS_MCP_API_KEY`). Remote does **not** go through this Node process.
 
 ## Hard bans
 
