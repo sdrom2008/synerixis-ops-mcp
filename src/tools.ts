@@ -1,5 +1,4 @@
 import type { OpsMcpClient } from "./client.js";
-import { stableIdempotencyKey } from "./client.js";
 
 type ToolAnnotations = {
   readOnlyHint?: boolean;
@@ -31,17 +30,23 @@ function requireConfirm(tool: string, args: Record<string, unknown>): void {
   }
 }
 
-function idempotencyKey(tool: string, args: Record<string, unknown>): string {
+function callerIdempotencyKey(args: Record<string, unknown>): string | undefined {
+  if (args.idempotencyKey == null || args.idempotencyKey === "") return undefined;
   const given = typeof args.idempotencyKey === "string" ? args.idempotencyKey.trim() : "";
-  if (/^[A-Za-z0-9_-]{8,80}$/.test(given)) return given;
-  return stableIdempotencyKey([
-    tool,
-    String(args.conversationId ?? ""),
-    String(args.draftId ?? ""),
-    String(args.content ?? ""),
-    String(args.assigneeId ?? ""),
-    String(args.status ?? ""),
-  ]);
+  if (!/^[A-Za-z0-9_-]{8,80}$/.test(given)) {
+    throw new Error("idempotencyKey must be 8-80 letters, digits, _ or -. Omit it to send without dedupe.");
+  }
+  return given;
+}
+
+function withReplayNote(result: unknown): unknown {
+  if (!result || typeof result !== "object" || Array.isArray(result)) return result;
+  if ((result as { replay?: unknown }).replay !== true) return result;
+  return {
+    ...(result as Record<string, unknown>),
+    delivered: false,
+    note: "Replay of an earlier send. The platform was not called again, and this is not a new delivery.",
+  };
 }
 
 export const TOOLS: ToolDef[] = [
@@ -207,17 +212,19 @@ export const TOOLS: ToolDef[] = [
         conversationId: { type: "string" },
         content: { type: "string" },
         confirm: { type: "boolean", description: "Must already be true. The client does not fill this in." },
-        idempotencyKey: { type: "string", description: "Optional retry key, 8-80 letters, digits, _ or -" },
+        idempotencyKey: { type: "string", description: "Optional retry key, 8-80 letters, digits, _ or -. Invalid keys are rejected. Omit it for a fresh send." },
       },
       required: ["conversationId", "content", "confirm"],
     },
     handler: async (c, a) => {
       requireConfirm("send_message", a);
-      return c.post(`/conversations/${encodeURIComponent(String(a.conversationId))}/send`, {
+      const body: Record<string, unknown> = {
         content: a.content,
         confirm: a.confirm,
-        idempotencyKey: idempotencyKey("send_message", a),
-      });
+      };
+      const key = callerIdempotencyKey(a);
+      if (key) body.idempotencyKey = key;
+      return withReplayNote(await c.post(`/conversations/${encodeURIComponent(String(a.conversationId))}/send`, body));
     },
   },
   {
@@ -237,11 +244,15 @@ export const TOOLS: ToolDef[] = [
     },
     handler: async (c, a) => {
       requireConfirm("approve_ai_reply", a);
-      return c.post(`/conversations/${encodeURIComponent(String(a.conversationId))}/approve-ai`, {
+      const body: Record<string, unknown> = {
         draftId: a.draftId,
         confirm: a.confirm,
-        idempotencyKey: idempotencyKey("approve_ai_reply", a),
-      });
+      };
+      const key = callerIdempotencyKey(a);
+      if (key) body.idempotencyKey = key;
+      return withReplayNote(
+        await c.post(`/conversations/${encodeURIComponent(String(a.conversationId))}/approve-ai`, body)
+      );
     },
   },
   {

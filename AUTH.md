@@ -62,6 +62,7 @@ Optional stdio: copy `.mcp.stdio.json` (`npx` + env). See README.
    - **Remote (default):** plugin variable / header `Authorization: Bearer sxk_…`
    - **stdio (optional):** `SYNERIXIS_OPS_MCP_API_KEY=sxk_...`
    - Optional `SYNERIXIS_OPS_MCP_BASE_URL` for stdio only (default `https://api.synerixis.com/api/ops-mcp/v1`)
+   - Optional `SYNERIXIS_OPS_MCP_ALLOWED_HOST_SUFFIX` (default `api.synerixis.com`; must be `synerixis.com` or a subdomain)
 
 7. Requests use `Authorization: Bearer <key>`.
 
@@ -82,7 +83,8 @@ Never commit keys. Prefer rotating a key after sharing it with a new device.
 
    - **远程（默认）：** 插件变量 / `Authorization: Bearer sxk_…`
    - **stdio（可选）：** `SYNERIXIS_OPS_MCP_API_KEY`
-
+   - 可选 `SYNERIXIS_OPS_MCP_BASE_URL`（仅 stdio，默认生产地址）
+   - 可选 `SYNERIXIS_OPS_MCP_ALLOWED_HOST_SUFFIX` 只能是 `synerixis.com` 或其子域
 7. 请求头：`Authorization: Bearer <key>`。
 
 发送、批准、驳回、分配、改状态必须带 `confirm=true`。stdio 客户端不会替你填上。宿主应把这些工具当破坏性操作来批准。Synerixis 会记下尝试和结果。

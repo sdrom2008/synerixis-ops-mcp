@@ -88,6 +88,7 @@ Or clone + `npm install` + `npm run build` and point `command` at `dist/index.js
 
 The process reads only `SYNERIXIS_OPS_MCP_API_KEY`. It does not fall back to `SYNERIXIS_API_KEY`.  
 Optional `SYNERIXIS_OPS_MCP_BASE_URL` must be `https` on `api.synerixis.com`. A local API needs `SYNERIXIS_OPS_MCP_ALLOW_INSECURE_LOCAL=1` and `http://localhost` or `http://127.0.0.1`.
+Optional `SYNERIXIS_OPS_MCP_ALLOWED_HOST_SUFFIX` defaults to `api.synerixis.com` and must itself be `synerixis.com` or a subdomain of it. It cannot point the API key at another domain.
 
 ### Tools
 | Tool | Purpose |

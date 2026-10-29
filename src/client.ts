@@ -1,10 +1,3 @@
-/**
- * Thin HTTP client for Synerixis Ops MCP API.
- * No local database — all state lives on the Synerixis API.
- */
-
-import { createHash } from "node:crypto";
-
 const DEFAULT_BASE = "https://api.synerixis.com/api/ops-mcp/v1";
 const DEFAULT_HOST_SUFFIX = "api.synerixis.com";
 
@@ -36,8 +29,19 @@ export function isBannedRequest(method: string, path: string): boolean {
   return BANNED_ROUTES.some(([bannedMethod, bannedPath]) => bannedMethod === normalizedMethod && bannedPath === normalizedPath);
 }
 
-export function stableIdempotencyKey(parts: Array<string | undefined>): string {
-  return createHash("sha256").update(parts.map((part) => part ?? "").join("\n")).digest("hex").slice(0, 32);
+/** Suffix must stay under synerixis.com so the API key cannot be sent to an arbitrary host. */
+export function allowedHostSuffix(): string {
+  const suffix = (process.env.SYNERIXIS_OPS_MCP_ALLOWED_HOST_SUFFIX || DEFAULT_HOST_SUFFIX)
+    .trim()
+    .toLowerCase()
+    .replace(/^\.+/, "")
+    .replace(/\.+$/, "");
+  if (suffix !== "synerixis.com" && !suffix.endsWith(".synerixis.com")) {
+    throw new Error(
+      "SYNERIXIS_OPS_MCP_ALLOWED_HOST_SUFFIX must be synerixis.com or a subdomain of synerixis.com."
+    );
+  }
+  return suffix;
 }
 
 /** https only, host must be the suffix (default api.synerixis.com) or a subdomain of it. */
@@ -49,7 +53,7 @@ export function assertBaseUrl(raw: string): string {
     throw new Error("SYNERIXIS_OPS_MCP_BASE_URL is not a valid URL.");
   }
   const host = url.hostname.toLowerCase();
-  const suffix = (process.env.SYNERIXIS_OPS_MCP_ALLOWED_HOST_SUFFIX || DEFAULT_HOST_SUFFIX).toLowerCase();
+  const suffix = allowedHostSuffix();
   const local =
     process.env.SYNERIXIS_OPS_MCP_ALLOW_INSECURE_LOCAL === "1"
     && (host === "localhost" || host === "127.0.0.1")
@@ -57,7 +61,7 @@ export function assertBaseUrl(raw: string): string {
   const allowedHost = host === suffix || host.endsWith(`.${suffix}`);
   if (!local && (url.protocol !== "https:" || !allowedHost)) {
     throw new Error(
-      "SYNERIXIS_OPS_MCP_BASE_URL must be https on api.synerixis.com. For a local API set SYNERIXIS_OPS_MCP_ALLOW_INSECURE_LOCAL=1 and use http://localhost."
+      `SYNERIXIS_OPS_MCP_BASE_URL must be https and the host must be ${suffix} or a subdomain of it. For a local API set SYNERIXIS_OPS_MCP_ALLOW_INSECURE_LOCAL=1 and use http://localhost.`
     );
   }
   return url.toString().replace(/\/$/, "");
