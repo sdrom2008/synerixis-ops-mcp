@@ -20,6 +20,7 @@ Skill: `synerixis-ops-connect`.
 | Find by order# or buyer email | `search_conversations` (`q`) |
 | Thread + order | `get_conversation` → `list_messages` → `get_order_context` |
 | AI解决点 balance | `get_quota` |
+| Subscription / renew guidance | `get_subscription` |
 | Pending AI replies | `list_pending_ai_replies` → show merchant → `approve_ai_reply` / `reject_ai_reply` |
 | Draft (no send) | `save_draft` |
 | Send | `send_message` after host approval + `confirm=true` |
@@ -36,9 +37,9 @@ Skill: `synerixis-ops-inbox` (main playbook). Pending-AI detail: `synerixis-ops-
 - Customer-facing copy: “AI reply” / “pending send”, not “draft”. Quota = **AI解决点**, not 结案.
 - Off-hours: if AI cannot finish, say a human will follow up — do not invent outcomes.
 
-## 4. Subscription (placeholder)
+## 4. Subscription
 
-When subscription tools land on the API, call them before pitching upgrades or explaining plan limits. Until then: use `get_quota` for **AI解决点** remaining; for billing/plan questions point the merchant to [app.synerixis.com](https://app.synerixis.com) or support@synerixis.com — do not invent plan names or prices.
+Call `get_subscription` before pitching upgrades or explaining plan limits. It returns tier, expiry, `canRenew`, `autoSendGateOk`, and a **billing portal** deep link (`billingPortalUrl`) plus Shopify vs PayPal channel hint. **Do not** create checkout sessions or charge the merchant from the assistant — open the portal URL / channelHint for the merchant. Ent → `contactSalesEmail` (`support@synerixis.com`). Still use `get_quota` for **AI解决点** remaining; do not invent plan prices.
 
 ## 5. More detail
 

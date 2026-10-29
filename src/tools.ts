@@ -165,6 +165,14 @@ export const TOOLS: ToolDef[] = [
     handler: (c) => c.get("/quota"),
   },
   {
+    name: "get_subscription",
+    description:
+      "Get this merchant's subscription tier, expiry, AutoSend gate, and billing-portal renew guidance (read-only; no checkout).",
+    annotations: READ,
+    inputSchema: { type: "object", properties: {} },
+    handler: (c) => c.get("/subscription"),
+  },
+  {
     name: "list_agents",
     description:
       "List this merchant's agents/seats (id, displayName, isActive/isAvailable) for assign_conversation. " +

@@ -100,6 +100,7 @@ Optional `SYNERIXIS_OPS_MCP_BASE_URL` must be `https` on `api.synerixis.com`. A 
 | `get_order_context` | Order context for this conversation's platform and store |
 | `list_pending_ai_replies` | AI drafts awaiting confirm |
 | `get_quota` | AI resolve points |
+| `get_subscription` | Tier / expiry / renew portal (read-only; no checkout) |
 | `list_agents` | Agents/seats (id, display name, available) for assign |
 | `save_draft` | Save draft (no send) |
 | `send_message` | Send. Host approval + `confirm=true`. Idempotency key. |
