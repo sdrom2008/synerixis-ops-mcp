@@ -8,6 +8,8 @@ Lightweight MCP shell for Synerixis merchant inbox ops.
 **Default install = remote HTTPS** → `https://api.synerixis.com/api/ops-mcp/v1/mcp`（Shopify 同款绿点 HTTP）。  
 本仓仍提供可选 **stdio**（`.mcp.stdio.json` / `npx`）给本机 Claude Desktop。
 
+**Agent / product docs:** [PRODUCT.md](./PRODUCT.md) · [USAGE.md](./USAGE.md) · skills under `skills/` (`synerixis-ops-inbox`, `synerixis-ops-connect`, `synerixis-ops-pending-ai`).
+
 ---
 
 ## English
@@ -20,6 +22,8 @@ Heavy lifting stays on the Synerixis API:
 `https://api.synerixis.com/api/ops-mcp/v1`
 
 Write tools are marked `destructiveHint`. The host must approve destructive calls. The Synerixis API still rejects a write unless `confirm` is true, and it writes an audit row for the attempt and the result.
+
+Docs for Grok / Cursor skills: [PRODUCT.md](./PRODUCT.md), [USAGE.md](./USAGE.md), `skills/synerixis-ops-inbox`.
 
 ### What this is not
 - Not the Synerixis main product repo
@@ -123,6 +127,8 @@ MIT
 本仓 **无本地数据库**；默认装法连 `api.synerixis.com` 的 Streamable HTTP，不跑本机 Node。
 
 写工具带 `destructiveHint`。宿主须批准破坏性调用。API 仍拒绝 `confirm` 不是 true 的写操作，并记下审计。
+
+助手自学文档：[PRODUCT.md](./PRODUCT.md)、[USAGE.md](./USAGE.md)、`skills/`。
 
 ### 给谁用（内测）
 
