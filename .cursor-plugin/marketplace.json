@@ -1,0 +1,20 @@
+{
+  "name": "synerixis-ops-mcp",
+  "owner": {
+    "name": "Synerixis",
+    "email": "support@synerixis.com"
+  },
+  "metadata": {
+    "description": "Public beta: remote HTTPS MCP for Synerixis unified inbox (Shopify & Amazon sellers)."
+  },
+  "logo": "assets/logo.png",
+  "plugins": [
+    {
+      "name": "synerixis-ops-mcp",
+      "source": ".",
+      "description": "Remote HTTPS MCP for Synerixis unified inbox. Install → fill sxk_ key → HTTP to api.synerixis.com.",
+      "version": "0.2.1",
+      "logo": "assets/logo.png"
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 {
   "name": "synerixis-ops-mcp",
   "displayName": "Synerixis Ops — CS Inbox (Beta)",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Public beta: remote HTTPS MCP for Synerixis unified inbox (Shopify & Amazon sellers). Install → fill sxk_ key → green-dot HTTP to api.synerixis.com. Still testing.",
   "author": {
     "name": "Synerixis",
@@ -30,6 +30,9 @@
         "description": "Merchant console → Connections → Generate. Starts with sxk_. Never commit this value."
       }
     },
-    "required": ["SYNERIXIS_OPS_MCP_API_KEY"]
-  }
+    "required": [
+      "SYNERIXIS_OPS_MCP_API_KEY"
+    ]
+  },
+  "logo": "assets/logo.png"
 }
